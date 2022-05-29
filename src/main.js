@@ -46,5 +46,5 @@ getCategoriesPreview = async () => {
 
     });
 }
-getTrendingMovies();
-getCategoriesPreview();
+
+
