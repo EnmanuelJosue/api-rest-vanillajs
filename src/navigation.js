@@ -1,5 +1,5 @@
 searchFormBtn.addEventListener('click', () => {
-    location.hash = '#search=';
+    location.hash = `#search=${searchFormInput.value.trim()}`;
 });
 
 trendingBtn.addEventListener('click', () => {
@@ -7,7 +7,7 @@ trendingBtn.addEventListener('click', () => {
 });
 
 arrowBtn.addEventListener('click', () => {
-    location.hash = '#home';
+    location.hash = window.history.back();
 });
 
 window.addEventListener('DOMContentLoaded', navigator, false);
@@ -46,7 +46,7 @@ function homePage () {
     genericSection.classList.add('inactive');
     movieDetailSection.classList.add('inactive');
 
-    getTrendingMovies();
+    getTrendingMoviesPreview();
     getCategoriesPreview();
 }
 
@@ -86,6 +86,9 @@ function movieDetailsPage () {
     categoriesPreviewSection.classList.add('inactive');
     genericSection.classList.add('inactive');
     movieDetailSection.classList.remove('inactive');
+
+    const [_, movieId] = location.hash.split('=');
+    getMovieById(movieId);
 }
 
 function searchPage () {
@@ -96,13 +99,17 @@ function searchPage () {
     arrowBtn.classList.remove('inactive');
     arrowBtn.classList.remove('header-arrow--white');
     headerTitle.classList.add('inactive')
-    headerCategoryTitle.classList.remove('inactive');
+    headerCategoryTitle.classList.add('inactive');
     searchForm.classList.remove('inactive');
 
     trendingPreviewSection.classList.add('inactive');
     categoriesPreviewSection.classList.add('inactive');
     genericSection.classList.remove('inactive');
     movieDetailSection.classList.add('inactive');
+
+    const [_, searchValue] = location.hash.split('=');
+    const query = searchValue.split('%20').join(' ');
+    getMoviesBySearch(query);
 }
 function trendsPage () {
     console.log('trends');
@@ -119,4 +126,8 @@ function trendsPage () {
     categoriesPreviewSection.classList.add('inactive');
     genericSection.classList.remove('inactive');
     movieDetailSection.classList.add('inactive');
+
+    headerCategoryTitle.innerHTML = 'Tendencias';
+    
+    getTrendingMovies();
 }
